@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Livro de Sentimentos</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:black;
+overflow:hidden;
+text-align:center;
+}
+
+/* GALAXIA */
+
+.galaxy{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle,#1b1c2c,#090a0f);
+z-index:-2;
+}
+
+/* LUA */
+
+.moon{
+position:fixed;
+top:40px;
+right:40px;
+width:120px;
+height:120px;
+background:radial-gradient(circle,#fff,#ddd);
+border-radius:50%;
+box-shadow:0 0 30px white;
+}
+
+/* ESTRELAS */
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:move linear infinite;
+}
+
+@keyframes move{
+from{transform:translateY(-10vh);}
+to{transform:translateY(110vh);}
+}
+
+/* URSO */
+
+.bear{
+position:fixed;
+bottom:10px;
+left:-100px;
+font-size:50px;
+animation:walk 20s linear infinite, step 0.6s infinite;
+}
+
+@keyframes walk{
+0%{left:-100px;}
+100%{left:110vw;}
+}
+
+@keyframes step{
+0%{transform:rotate(0deg);}
+25%{transform:rotate(4deg);}
+50%{transform:rotate(0deg);}
+75%{transform:rotate(-4deg);}
+100%{transform:rotate(0deg);}
+}
+
+/* LOGIN */
+
+.login{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(0,0,0,0.9);
+padding:40px;
+border-radius:15px;
+color:white;
+}
+
+.login input{
+padding:10px;
+border-radius:8px;
+border:none;
+margin-top:10px;
+}
+
+.login button{
+padding:10px 20px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+background:#ff6fa3;
+color:white;
+cursor:pointer;
+}
+
+/* CONTAINER LIVRO */
+
+.book-container{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+display:none;
+flex-direction:column;
+align-items:center;
+gap:20px;
+}
+
+/* LIVRO */
+
+.book{
+width:550px;
+height:350px;
+position:relative;
+perspective:2000px;
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+background:white;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:30px;
+transition:transform 1s;
+transform-origin:left;
+backface-visibility:hidden;
+}
+
+.page.flipped{
+transform:rotateY(-180deg);
+}
+
+.page button{
+margin-top:10px;
+padding:10px 20px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.next{background:#ff6fa3;color:white;}
+.prev{background:#333;color:white;}
+
+/* MUSICA */
+
+.music-player{
+margin-top:10px;
+}
+
+/* CORAÇÕES */
+
+.heart{
+position:absolute;
+font-size:24px;
+animation:floatUp 4s linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0) scale(0.5);}
+100%{transform:translateY(-200px) scale(1.2);opacity:0;}
+}
+
+/* FOGOS */
+
+#fireworks{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+}
+
+#nomeFinal{
+color:white;
+font-size:70px;
+opacity:0;
+animation:showName 3s forwards;
+text-shadow:0 0 20px white,0 0 40px pink;
+}
+
+@keyframes showName{
+0%{opacity:0;transform:scale(0.4);}
+100%{opacity:1;transform:scale(1);}
+}
+
+.fire{
+position:absolute;
+width:6px;
+height:6px;
+background:yellow;
+border-radius:50%;
+animation:explode 1.2s linear forwards;
+}
+
+@keyframes explode{
+0%{transform:translate(0,0);opacity:1;}
+100%{transform:translate(var(--x),var(--y));opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="galaxy"></div>
+<div class="moon"></div>
+<div class="bear">🧸</div>
+
+<!-- LOGIN -->
+
+<div class="login" id="login">
+
+<h2>🔒 Livro de Sentimentos</h2>
+<p>Digite a senha</p>
+
+<input type="password" id="senha">
+
+<br>
+
+<button onclick="entrar()">Entrar</button>
+
+</div>
+
+<!-- LIVRO -->
+
+<div class="book-container" id="bookContainer">
+
+<div class="book">
+
+<!-- PAGINA 1 -->
+
+<div class="page" id="page1">
+
+<h2>Capítulo 1</h2>
+<p>
+Algumas pessoas entram na nossa vida de forma simples,
+mas acabam se tornando especiais com o tempo.
+</p>
+
+<button class="next" onclick="nextPage(1)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 2 -->
+
+<div class="page" id="page2">
+
+<h2>Capítulo 2</h2>
+
+<p>
+Existem momentos pequenos que ficam guardados
+na memória para sempre.
+</p>
+
+<button class="prev" onclick="prevPage(2)">Anterior</button>
+<button class="next" onclick="nextPage(2)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 3 -->
+
+<div class="page" id="page3">
+
+<h2>Capítulo 3</h2>
+
+<p>
+Às vezes a gente nem percebe quando algo
+começa a significar mais do que imaginávamos.
+</p>
+
+<button class="prev" onclick="prevPage(3)">Anterior</button>
+<button class="next" onclick="nextPage(3)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 4 -->
+
+<div class="page" id="page4">
+
+<h2>Capítulo 4</h2>
+
+<p>
+Existem sentimentos que não precisam de explicação.
+Eles simplesmente aparecem.
+</p>
+
+<button class="prev" onclick="prevPage(4)">Anterior</button>
+<button class="next" onclick="nextPage(4)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 5 -->
+
+<div class="page" id="page5">
+
+<h2>Capítulo 5</h2>
+
+<p>
+A vida é feita de encontros inesperados,
+e alguns deles mudam nossa história.
+</p>
+
+<button class="prev" onclick="prevPage(5)">Anterior</button>
+<button class="next" onclick="nextPage(5)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 6 -->
+
+<div class="page" id="page6">
+
+<h2>Capítulo 6</h2>
+
+<p>
+Algumas histórias simplesmente acontecem
+porque deveriam acontecer.
+</p>
+
+<button class="prev" onclick="prevPage(6)">Anterior</button>
+<button class="next" onclick="nextPage(6)">Próximo</button>
+
+</div>
+
+<!-- PAGINA 7 -->
+
+<div class="page" id="page7">
+
+<h2>Capítulo 7</h2>
+
+<p>
+Se você chegou até aqui lendo tudo isso,
+talvez exista um motivo para isso.
+</p>
+
+<button class="prev" onclick="prevPage(7)">Anterior</button>
+<button class="next" onclick="showFireworks()">Próximo</button>
+
+</div>
+
+<!-- PAGINA FINAL -->
+
+<div class="page" id="page8">
+
+<h2>Uma pergunta...</h2>
+
+<p><b>Você quer continuar essa história comigo?</b></p>
+
+<button onclick="respostaSim()">❤️ SIM</button>
+<button onclick="respostaNao()">💔 NÃO</button>
+
+<button class="prev" onclick="prevPage(8)">Anterior</button>
+
+</div>
+
+</div>
+
+<!-- MUSICA -->
+
+<div class="music-player">
+
+<iframe
+src="https://open.spotify.com/embed/track/3jdNHCyE48KnsnXaJwsFy3"
+width="320"
+height="80"
+frameborder="0"
+allow="autoplay; clipboard-write; encrypted-media;">
+</iframe>
+
+</div>
+
+</div>
+
+<!-- FOGOS -->
+
+<div id="fireworks">
+<h1 id="nomeFinal">Andrey Alves</h1>
+</div>
+
+<script>
+
+/* ESTRELAS */
+
+for(let i=0;i<150;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+s.style.animationDuration=(5+Math.random()*10)+"s";
+document.body.appendChild(s);
+}
+
+/* LOGIN */
+
+function entrar(){
+let senha=document.getElementById("senha").value;
+
+if(senha==="alves"){
+document.getElementById("login").style.display="none";
+document.getElementById("bookContainer").style.display="flex";
+}else{
+alert("Senha incorreta");
+}
+}
+
+/* PAGINAS */
+
+function nextPage(n){
+document.getElementById("page"+n).classList.add("flipped");
+createHeart();
+}
+
+function prevPage(n){
+document.getElementById("page"+n).classList.remove("flipped");
+createHeart();
+}
+
+/* CORAÇÕES */
+
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*90+"vw";
+heart.style.top="80vh";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+}
+
+/* FOGOS */
+
+function showFireworks(){
+
+let container=document.getElementById("fireworks");
+
+container.style.display="flex";
+
+for(let i=0;i<120;i++){
+
+let f=document.createElement("div");
+
+f.className="fire";
+
+let x=(Math.random()*600-300)+"px";
+let y=(Math.random()*600-300)+"px";
+
+f.style.setProperty("--x",x);
+f.style.setProperty("--y",y);
+
+container.appendChild(f);
+
+setTimeout(()=>f.remove(),1200);
+
+}
+
+setTimeout(()=>{
+
+container.style.display="none";
+
+document.getElementById("page7").classList.add("flipped");
+
+},4000);
+
+}
+
+/* WHATSAPP */
+
+function respostaSim(){
+
+let msg=encodeURIComponent("Eu li o livro inteiro... e minha resposta é SIM ❤️");
+
+window.open("https://wa.me/351960277821?text="+msg);
+
+}
+
+function respostaNao(){
+
+let msg=encodeURIComponent("Eu li o livro... mas minha resposta é NÃO 😅");
+
+window.open("https://wa.me/351960277821?text="+msg);
+
+}
+
+</script>
+
+</body>
+</html>
